@@ -36,18 +36,18 @@ namespace MohawkGame2D
         /// </summary>
         public void Update()
         {
-            render();
-            pacman.update();
-
+             
+            pacman.Update();
+            Render();
 
 
         }
 
 
-        public void render()
+        public void Render()
         {
 
-            pacman.render();
+            pacman.Render();
 
 
 

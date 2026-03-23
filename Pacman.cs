@@ -35,18 +35,34 @@ namespace Assignment_4
         public int radius = 10;
 
 
-        public void update()
+        public void Update()
         {
+            HandleMovement();
 
+            switch (direction)
+            {
+                case Direction.UP:
+                    y -= (int)(speed);
+                    break;
 
+                case Direction.DOWN:
+                    y += (int)(speed);
+                    break;
 
+                case Direction.LEFT:
+                    x -= (int)(speed);
+                    break;
 
+                case Direction.RIGHT:
+                    x += (int)(speed);
+                    break;
+            }
 
 
 
         }
 
-        public void render()
+        public void Render()
         {
 
             Draw.FillColor = Color.Yellow;
@@ -54,7 +70,14 @@ namespace Assignment_4
 
         }
 
-        public void handle
+        public void HandleMovement()
+        {
+            if (Input.IsKeyboardKeyDown(KeyboardInput.W) || Input.IsKeyboardKeyDown(KeyboardInput.Up)) { direction=Direction.UP;   }
+            else if (Input.IsKeyboardKeyDown(KeyboardInput.A) || Input.IsKeyboardKeyDown(KeyboardInput.Left)) { direction = Direction.LEFT; }
+            else if (Input.IsKeyboardKeyDown(KeyboardInput.S) || Input.IsKeyboardKeyDown(KeyboardInput.Down)) { direction = Direction.DOWN; }
+            else if (Input.IsKeyboardKeyDown(KeyboardInput.D) || Input.IsKeyboardKeyDown(KeyboardInput.Right)) { direction = Direction.RIGHT; }
+
+        }
 
     }
 }

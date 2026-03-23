@@ -24,8 +24,8 @@ namespace Assignment_4
 
         public Tile(int x, int y, Type type)
         {
-            this.x = x * tilewidth;
-            this.y = y * tileheight;
+            this.x = x * tilewidth + 70;
+            this.y = y * tileheight + 80;
             this.type = type;
         }
 

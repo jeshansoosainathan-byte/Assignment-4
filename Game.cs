@@ -13,7 +13,9 @@ namespace MohawkGame2D
     {
         // Place your variables here:
 
-    
+
+        int xoffset = 160;
+        int yoffset = 160;
         int screenwidth = 448;
         int screenheight = 512;
         Pacman pacman = new Pacman();

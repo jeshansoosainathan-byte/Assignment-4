@@ -24,6 +24,7 @@ namespace Assignment_4
             x = 10;
             y = 10;
             speed = 2;
+ 
         }
 
         public int x { get; set; }
@@ -32,13 +33,13 @@ namespace Assignment_4
         public int score { get; set; }
         public int speed { get; set; }
         public Direction direction { get; set; }
-        public int radius = 10;
+        public int radius = 8;
 
 
         public void Update()
         {
             HandleMovement();
-
+            Render();
             switch (direction)
             {
                 case Direction.UP:

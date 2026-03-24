@@ -12,7 +12,10 @@ namespace Assignment_4
         {
             Wall,
             Pellet,
-            PowerPellet
+            PowerPellet,
+            Food,
+            GhostWall,
+            Portal
         }
 
 
@@ -21,7 +24,7 @@ namespace Assignment_4
         public int x {  get; set; }
         public int y { get; set; }
         public Type type = Type.Wall;
-
+        public bool destroy = false;
         public Tile(int x, int y, Type type)
         {
             this.x = x * tilewidth + 70;
@@ -29,39 +32,46 @@ namespace Assignment_4
             this.type = type;
         }
 
-        public void render()
+        public void Render()
         {
 
-            Draw.FillColor = Color.Blue;
+    
 
             switch (type)
             {
                 case Type.Wall:
                     Draw.FillColor = Color.Blue;
+                    Draw.Rectangle(x, y, tilewidth, tileheight);
                     break;
                     case Type.Pellet:
                     Draw.FillColor = Color.White;
+                    Draw.Circle(x + 8, y + 8, 4);
+                    break;
+                case Type.PowerPellet:
+                    Draw.FillColor = Color.Green;
+                    Draw.Circle(x + 10, y + 10, 6);
+                    break;
+                case Type.GhostWall:
+                     Draw.FillColor = Color.Magenta;
+                    Draw.Rectangle(x, y, tilewidth, tileheight);
+                    break;
+                case Type.Portal:
+                    Draw.FillColor = Color.LightGray;
+                    Draw.Circle(x + 10, y + 10, 6);
+                    break;
+                case Type.Food:
+                    Draw.FillColor = Color.Cyan;
+                    Draw.Circle(x + 10, y + 10, 6);
                     break;
 
             }
 
-
-
-            if (type == Type.Wall)
-            {
-                Draw.Rectangle(x, y, tilewidth, tileheight);
-
-            }
-            else
-            {
-                Draw.Circle(x+10, y+10,6);
-
-            }
 
 
 
         }
 
+       
 
 
 

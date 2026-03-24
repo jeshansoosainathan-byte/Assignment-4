@@ -14,14 +14,12 @@ namespace MohawkGame2D
         // Place your variables here:
 
 
-        int xoffset = 160;
-        int yoffset = 160;
         int screenwidth = 448;
         int screenheight = 512;
-        Pacman pacman = new Pacman();
+
 
         Tile[] tiles = new Tile[2000];
-
+        Pacman pacman;
         int[,] map =
 {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -33,14 +31,14 @@ namespace MohawkGame2D
     {1,2,2,2,2,1,2,2,2,1,2,2,2,1,2,2,2,2,1},
     {1,1,1,1,2,1,1,1,0,0,0,1,1,1,2,1,1,1,1},
     {0,0,0,1,2,1,0,0,0,0,0,0,0,1,2,1,0,0,0},
-    {1,1,1,1,2,1,0,1,1,1,1,1,0,1,2,1,1,1,1},
-    {0,0,0,0,2,0,0,1,0,0,0,1,0,0,2,0,0,0,0},
+    {1,1,1,1,2,1,0,1,6,6,6,1,0,1,2,1,1,1,1},
+    {7,0,0,0,2,0,0,1,0,0,0,1,0,0,2,0,0,0,7},
     {1,1,1,1,2,1,0,1,1,1,1,1,0,1,2,1,1,1,1},
     {0,0,0,1,2,1,0,0,0,0,0,0,0,1,2,1,0,0,0},
-    {1,1,1,1,2,1,1,1,1,0,1,1,1,1,2,1,1,1,1},
+    {1,1,1,1,2,1,1,1,1,4,1,1,1,1,2,1,1,1,1},
     {1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1},
     {1,2,1,1,2,1,1,2,1,1,2,1,1,2,1,1,2,2,1},
-    {1,3,2,1,2,2,2,2,0,0,0,2,2,2,1,2,2,3,1},
+    {1,3,2,1,2,2,2,2,0,5,0,2,2,2,1,2,2,3,1},
     {1,1,2,1,2,1,2,1,1,1,1,1,2,1,2,1,2,1,1},
     {1,2,2,2,2,1,2,2,2,1,2,2,2,1,2,2,2,2,1},
     {1,2,1,1,1,1,1,1,2,1,2,1,1,1,1,1,1,2,1},
@@ -56,7 +54,7 @@ namespace MohawkGame2D
             Window.SetTitle("Pacman");
             Window.SetSize(screenwidth, screenheight);
 
-           
+            pacman = new Pacman(tiles, map);
 
 
 
@@ -71,13 +69,14 @@ namespace MohawkGame2D
 
                         Tile tile = new Tile(col, row, Tile.Type.Wall);
                         int cols = map.GetLength(1);
+                        //  Console.WriteLine($"X: { tile.x} Y: {tile.y}" );
 
                         tiles[row * cols + col] = tile;
 
 
 
                     }
-                    else if (t== 2)
+                    else if (t == 2)
                     {
 
                         Tile tile = new Tile(col, row, Tile.Type.Pellet);
@@ -87,6 +86,52 @@ namespace MohawkGame2D
 
 
                     }
+
+                    else if (t == 3)
+                    {
+
+                        Tile tile = new Tile(col, row, Tile.Type.PowerPellet);
+                        int cols = map.GetLength(1);
+
+                        tiles[row * cols + col] = tile;
+
+
+                    }
+                    else if (t == 4)
+                    {
+
+                        Tile tile = new Tile(col, row, Tile.Type.Food);
+                        int cols = map.GetLength(1);
+
+                        tiles[row * cols + col] = tile;
+
+
+                    }
+                    else if (t == 5)
+                    {
+
+                        pacman.x = col * 16 + 70;
+                        pacman.y = row * 16 + 80;
+
+                        Console.WriteLine($"X: {pacman.x} Y: {pacman.y}");
+                    }
+                    else if (t == 6)
+                    {
+
+                        Tile tile = new Tile(col, row, Tile.Type.GhostWall);
+                        int cols = map.GetLength(1);
+
+                        tiles[row * cols + col] = tile;
+                    }
+                    else if (t == 7)
+                    {
+
+                        Tile tile = new Tile(col, row, Tile.Type.Portal);
+                        int cols = map.GetLength(1);
+
+                        tiles[row * cols + col] = tile;
+                    }
+
                 }
             }
 
@@ -104,36 +149,39 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.Black);
             pacman.Update();
-             
 
-            foreach (Tile tile in tiles)
+
+
+            for (int i = 0; i < tiles.Length; i++)
             {
 
-                if (tile != null )
+                if (tiles[i] != null)
                 {
 
-                    tile.render();
+                    Tile tile = tiles[i];
 
+                    
+                        tile.Render();
+                    
                 }
-              
+
+
 
 
             }
 
 
+
+
+
+
+
+
+
+
+
         }
 
 
-        
-
-
-
-
-
-
-
-
     }
-
-
-}
+    }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment_4
 {
@@ -21,8 +22,7 @@ namespace Assignment_4
         {
 
             currentdir = Direction.NONE;
-            x = 230;
-            y = 350;
+   
             speed = 200;
             this.tiles = tiles;
             this.map = map;
@@ -30,7 +30,7 @@ namespace Assignment_4
 
         public float x { get; set; }
         public float y { get; set; }
-        public int lives { get; set;  }
+        public int lives { get; set; }
         public int score { get; set; }
         public int speed { get; set; }
         public Direction currentdir { get; set; }
@@ -38,7 +38,7 @@ namespace Assignment_4
         public bool isPowered = false;
         public int powertime = 0;
 
-        public int size = 16;
+        public int size = 12;
         private Tile[] tiles;
         private int[,] map;
 
@@ -48,19 +48,31 @@ namespace Assignment_4
         {
             HandleMovement();
             Render();
-            float nextX = x;
-            float nextY = y;
 
-            currentdir = desireddir;
-      
-                Move();
-            
-           
+       
 
+            float dx = 0, dy = 0;
+
+            switch (desireddir)
+            {
+                case Direction.UP: dy = -speed * Time.DeltaTime; break;
+                case Direction.DOWN: dy = speed * Time.DeltaTime; break;
+                case Direction.LEFT: dx = -speed * Time.DeltaTime; break;
+                case Direction.RIGHT: dx = speed * Time.DeltaTime; break;
+            }
+
+            if (CanMove(x + dx, y + dy))
+            {
+                currentdir = desireddir;
+                
+            }
+
+
+            Move();
 
 
         }
-       
+
         public void Render()
         {
 
@@ -71,11 +83,11 @@ namespace Assignment_4
 
         public void HandleMovement()
         {
-            if (Input.IsKeyboardKeyDown(KeyboardInput.W) || Input.IsKeyboardKeyDown(KeyboardInput.Up)) { desireddir=Direction.UP;   }
+            if (Input.IsKeyboardKeyDown(KeyboardInput.W) || Input.IsKeyboardKeyDown(KeyboardInput.Up)) { desireddir = Direction.UP; }
             else if (Input.IsKeyboardKeyDown(KeyboardInput.A) || Input.IsKeyboardKeyDown(KeyboardInput.Left)) { desireddir = Direction.LEFT; }
             else if (Input.IsKeyboardKeyDown(KeyboardInput.S) || Input.IsKeyboardKeyDown(KeyboardInput.Down)) { desireddir = Direction.DOWN; }
             else if (Input.IsKeyboardKeyDown(KeyboardInput.D) || Input.IsKeyboardKeyDown(KeyboardInput.Right)) { desireddir = Direction.RIGHT; }
-  
+
 
         }
 
@@ -93,12 +105,54 @@ namespace Assignment_4
                 case Direction.RIGHT: dx = speed * Time.DeltaTime; break;
             }
 
-              x = x + dx;
-              y = y + dy;
+            float nextx = x + dx;
+            float nexty = y + dy;
 
-         
+            if (CanMove(nextx, nexty))
+            {
+                x = nextx;
+                y = nexty;
+            }
+
         }
+        bool CanMove(float xnext, float ynext)
+        {
 
+            foreach (Tile tile in tiles)
+            {
+             
+                if (tile == null) { continue; }
+
+                float leftEdge1 = xnext;
+                float rightEdge1 = xnext + size;
+                float topEdge1 = ynext ;
+                float bottomEdge1 = ynext + size;
+ 
+                float leftEdge2 = tile.x;
+                float rightEdge2 =tile.x + 16;
+                float topEdge2 =  tile.y;
+                float bottomEdge2 =tile.y + 16;
+
+               
+                bool doesOverlapLeft = leftEdge1 < rightEdge2;
+                bool doesOverlapRight = rightEdge1 > leftEdge2;
+                bool doesOverlapTop = topEdge1 < bottomEdge2;
+                bool doesOverlapBottom = bottomEdge1 > topEdge2;
+
+          
+                bool doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop && doesOverlapBottom;
+
+                if (doesOverlap && (tile.type == Tile.Type.Wall || tile.type == Tile.Type.GhostWall)) {
+                    Console.WriteLine($"Blocked! Tile X: {leftEdge2} Tile Y: {topEdge2} X: {x} Y: {y}");
+                    return false;
+                }
+            }
+
+
+
+            return true;
+
+        }
 
 
 

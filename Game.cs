@@ -152,23 +152,7 @@ namespace MohawkGame2D
 
             Render();
 
-
-            if (!paused)
-            {
-                time += Time.DeltaTime;
-
-                if (time >= 1f)
-                {
-                    time -= 1f;
-
-                    if (pacman.powertime > 0)
-                    {
-                        pacman.powertime--;
-
-                    }
-                }
-            }
-
+ 
 
 
 
@@ -182,6 +166,18 @@ namespace MohawkGame2D
             if (!paused)
             {
                 pacman.Update();
+                time += Time.DeltaTime;
+
+                if (time >= 1f)
+                {
+                    time -= 1f;
+
+                    if (pacman.powertime > 0)
+                    {
+                        pacman.powertime--;
+
+                    }
+                }
             }
             else
             {

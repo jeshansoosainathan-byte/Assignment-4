@@ -18,9 +18,7 @@ namespace MohawkGame2D
         int screenwidth = 448;
         int screenheight = 512;
         bool paused = false;
-    
         float time = 0;
-        float previousTime = 0;
         Tile[] tiles = new Tile[2000];
         Pacman pacman;
         int[,] map =
@@ -57,7 +55,7 @@ namespace MohawkGame2D
             Window.SetTitle("Pacman");
             Window.SetSize(screenwidth, screenheight);
             Window.TargetFPS = 60;
-            pacman = new Pacman(tiles,this);
+            pacman = new Pacman(tiles, this);
 
 
 
@@ -72,7 +70,7 @@ namespace MohawkGame2D
 
                         Tile tile = new Tile(col, row, Tile.Type.Wall);
                         int cols = map.GetLength(1);
-                        //  Console.WriteLine($"X: { tile.x} Y: {tile.y}" );
+
 
                         tiles[row * cols + col] = tile;
 
@@ -113,10 +111,10 @@ namespace MohawkGame2D
                     else if (t == 5)
                     {
 
-                        pacman.x = col * 16 + 70;
-                        pacman.y = row * 16 + 80;
+                        pacman.x = col * 16 + 72;
+                        pacman.y = row * 16 + 82;
 
-                       
+
                     }
                     else if (t == 6)
                     {
@@ -155,17 +153,19 @@ namespace MohawkGame2D
             Render();
 
 
-
-            time += Time.DeltaTime;
-
-            if (time >= 1f)
+            if (!paused)
             {
-                time -= 1f;
+                time += Time.DeltaTime;
 
-                if (pacman.powertime > 0)
+                if (time >= 1f)
                 {
-                    pacman.powertime--;
-                    Console.WriteLine($"Powertime: {pacman.powertime}");
+                    time -= 1f;
+
+                    if (pacman.powertime > 0)
+                    {
+                        pacman.powertime--;
+
+                    }
                 }
             }
 
@@ -174,25 +174,25 @@ namespace MohawkGame2D
 
 
 
-
             Text.Color = MohawkGame2D.Color.White;
             Text.Size = 32;
-            Text.Draw($"Score: {pacman.score} Power: {pacman.powertime}",0 ,0);
-        
+            Text.Draw($"Score: {pacman.score} Power: {pacman.powertime}", 0, 0);
+
 
             if (!paused)
             {
                 pacman.Update();
-            } else
+            }
+            else
             {
                 Text.Color = MohawkGame2D.Color.White;
                 Text.Size = 32;
-                Text.Draw("PAUSED", Window.Width/2, Window.Height/2);
+                Text.Draw("PAUSED", Window.Width / 2, Window.Height / 2);
 
 
             }
 
-            if (Input.IsKeyboardKeyPressed(KeyboardInput.Q)  ) { paused = !paused; }
+            if (Input.IsKeyboardKeyPressed(KeyboardInput.Q)) { paused = !paused; }
 
 
 
@@ -220,4 +220,4 @@ namespace MohawkGame2D
         }
 
     }
-    }
+}

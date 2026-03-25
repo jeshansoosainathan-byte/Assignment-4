@@ -45,11 +45,7 @@ namespace Assignment_4
 
         public void Update()
         {
-            HandleMovement();
-        
-           
-
-       
+            HandleInput();
 
             float dx = 0, dy = 0;
 
@@ -66,8 +62,7 @@ namespace Assignment_4
                 currentdir = desireddir;
                 
             }
-
-
+         
             Move();
             CheckOverlap();
            
@@ -82,7 +77,7 @@ namespace Assignment_4
 
         }
 
-        public void HandleMovement()
+        public void HandleInput()
         {
             if (Input.IsKeyboardKeyDown(KeyboardInput.W) || Input.IsKeyboardKeyDown(KeyboardInput.Up)) { desireddir = Direction.UP; }
             else if (Input.IsKeyboardKeyDown(KeyboardInput.A) || Input.IsKeyboardKeyDown(KeyboardInput.Left)) { desireddir = Direction.LEFT; }
@@ -108,14 +103,7 @@ namespace Assignment_4
                 }
 
 
-
             }
-
-
-
-
-
-
 
         }
         

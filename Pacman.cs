@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment_4
@@ -18,14 +19,14 @@ namespace Assignment_4
 
         }
 
-        public Pacman(Tile[] tiles, int[,] map)
+        public Pacman(Tile[] tiles, Game game )
         {
 
             currentdir = Direction.NONE;
    
             speed = 200;
             this.tiles = tiles;
-            this.map = map;
+            this.game = game;
         }
 
         public float x { get; set; }
@@ -35,19 +36,18 @@ namespace Assignment_4
         public int speed { get; set; }
         public Direction currentdir { get; set; }
         public Direction desireddir { get; set; }
-        public bool isPowered = false;
         public int powertime = 0;
-
         public int size = 12;
         private Tile[] tiles;
-        private int[,] map;
+        private Game game;
 
 
 
         public void Update()
         {
             HandleMovement();
-            Render();
+        
+           
 
        
 
@@ -69,7 +69,8 @@ namespace Assignment_4
 
 
             Move();
-
+            CheckOverlap();
+           
 
         }
 
@@ -90,6 +91,35 @@ namespace Assignment_4
 
 
         }
+
+        public void CheckOverlap()
+        {
+
+            foreach(Tile tile in tiles)
+            {
+                if (tile == null ) continue;
+
+                if (IsOverlapping(x,y,tile.x,tile.y))
+                {
+
+                    tile.collide(this);
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+        
+
 
 
         void Move()
@@ -112,6 +142,8 @@ namespace Assignment_4
             {
                 x = nextx;
                 y = nexty;
+
+               
             }
 
         }
@@ -122,28 +154,11 @@ namespace Assignment_4
             {
              
                 if (tile == null) { continue; }
-
-                float leftEdge1 = xnext;
-                float rightEdge1 = xnext + size;
-                float topEdge1 = ynext ;
-                float bottomEdge1 = ynext + size;
  
-                float leftEdge2 = tile.x;
-                float rightEdge2 =tile.x + 16;
-                float topEdge2 =  tile.y;
-                float bottomEdge2 =tile.y + 16;
-
-               
-                bool doesOverlapLeft = leftEdge1 < rightEdge2;
-                bool doesOverlapRight = rightEdge1 > leftEdge2;
-                bool doesOverlapTop = topEdge1 < bottomEdge2;
-                bool doesOverlapBottom = bottomEdge1 > topEdge2;
-
-          
-                bool doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop && doesOverlapBottom;
+                bool doesOverlap = IsOverlapping(xnext, ynext, tile.x, tile.y);
 
                 if (doesOverlap && (tile.type == Tile.Type.Wall || tile.type == Tile.Type.GhostWall)) {
-                    Console.WriteLine($"Blocked! Tile X: {leftEdge2} Tile Y: {topEdge2} X: {x} Y: {y}");
+                  
                     return false;
                 }
             }
@@ -154,7 +169,30 @@ namespace Assignment_4
 
         }
 
+        bool IsOverlapping(float x, float y, int tileX, int tileY)
+        {
+            float leftEdge1 = x;
+            float rightEdge1 = x + size;
+            float topEdge1 = y;
+            float bottomEdge1 = y + size;
 
+            float leftEdge2 = tileX;
+            float rightEdge2 = tileX + 16;
+            float topEdge2 = tileY;
+            float bottomEdge2 = tileY + 16;
+
+
+            bool doesOverlapLeft = leftEdge1 < rightEdge2;
+            bool doesOverlapRight = rightEdge1 > leftEdge2;
+            bool doesOverlapTop = topEdge1 < bottomEdge2;
+            bool doesOverlapBottom = bottomEdge1 > topEdge2;
+
+
+            bool doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop && doesOverlapBottom;
+
+            return doesOverlap;
+
+        }
 
 
     }

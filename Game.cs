@@ -2,6 +2,7 @@
 using Assignment_4;
 using System;
 using System.Numerics;
+using static Assignment_4.Pacman;
 
 // The namespace your code is in.
 namespace MohawkGame2D
@@ -16,8 +17,10 @@ namespace MohawkGame2D
 
         int screenwidth = 448;
         int screenheight = 512;
-
-
+        bool paused = false;
+    
+        float time = 0;
+        float previousTime = 0;
         Tile[] tiles = new Tile[2000];
         Pacman pacman;
         int[,] map =
@@ -32,7 +35,7 @@ namespace MohawkGame2D
     {1,1,1,1,2,1,1,1,0,0,0,1,1,1,2,1,1,1,1},
     {0,0,0,1,2,1,0,0,0,0,0,0,0,1,2,1,0,0,0},
     {1,1,1,1,2,1,0,1,6,6,6,1,0,1,2,1,1,1,1},
-    {7,0,0,0,2,0,0,1,0,0,0,1,0,0,2,0,0,0,7},
+    {1,0,0,0,2,0,0,1,0,0,0,1,0,0,2,0,0,0,1},
     {1,1,1,1,2,1,0,1,1,1,1,1,0,1,2,1,1,1,1},
     {0,0,0,1,2,1,0,0,0,0,0,0,0,1,2,1,0,0,0},
     {1,1,1,1,2,1,1,1,1,4,1,1,1,1,2,1,1,1,1},
@@ -53,8 +56,8 @@ namespace MohawkGame2D
         {
             Window.SetTitle("Pacman");
             Window.SetSize(screenwidth, screenheight);
-
-            pacman = new Pacman(tiles, map);
+            Window.TargetFPS = 60;
+            pacman = new Pacman(tiles,this);
 
 
 
@@ -113,7 +116,7 @@ namespace MohawkGame2D
                         pacman.x = col * 16 + 70;
                         pacman.y = row * 16 + 80;
 
-                        Console.WriteLine($"X: {pacman.x} Y: {pacman.y}");
+                       
                     }
                     else if (t == 6)
                     {
@@ -148,26 +151,22 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.Black);
-            pacman.Update();
+
+            Render();
 
 
 
-            for (int i = 0; i < tiles.Length; i++)
+            time += Time.DeltaTime;
+
+            if (time >= 1f)
             {
+                time -= 1f;
 
-                if (tiles[i] != null)
+                if (pacman.powertime > 0)
                 {
-
-                    Tile tile = tiles[i];
-
-                    
-                        tile.Render();
-                    
+                    pacman.powertime--;
+                    Console.WriteLine($"Powertime: {pacman.powertime}");
                 }
-
-
-
-
             }
 
 
@@ -176,12 +175,49 @@ namespace MohawkGame2D
 
 
 
+            Text.Color = MohawkGame2D.Color.White;
+            Text.Size = 32;
+            Text.Draw($"Score: {pacman.score} Power: {pacman.powertime}",0 ,0);
+        
 
+            if (!paused)
+            {
+                pacman.Update();
+            } else
+            {
+                Text.Color = MohawkGame2D.Color.White;
+                Text.Size = 32;
+                Text.Draw("PAUSED", Window.Width/2, Window.Height/2);
+
+
+            }
+
+            if (Input.IsKeyboardKeyPressed(KeyboardInput.Q)  ) { paused = !paused; }
 
 
 
         }
 
+        public void Render()
+        {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+
+                if (tiles[i] != null)
+                {
+
+                    Tile tile = tiles[i];
+
+
+                    tile.Render();
+
+                }
+
+            }
+            pacman.Render();
+
+
+        }
 
     }
     }

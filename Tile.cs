@@ -35,8 +35,8 @@ namespace Assignment_4
         public void Render()
         {
 
-    
 
+            if (destroy) return;
             switch (type)
             {
                 case Type.Wall:
@@ -71,7 +71,32 @@ namespace Assignment_4
 
         }
 
-       
+       public void collide(Pacman pacman)
+        {
+            if (destroy) return;
+            switch(type)
+            {
+                case Type.Pellet:
+                    destroy = true;
+                    pacman.score += 1;
+                    break;
+                case Type.PowerPellet:
+                    destroy = true;
+                    pacman.score += 1;
+                    pacman.powertime = 10;
+                    break;
+                case Type.Food:
+                    destroy = true;
+                    pacman.score += 3;
+                    break;
+              
+
+
+            }
+
+
+
+        }
 
 
 

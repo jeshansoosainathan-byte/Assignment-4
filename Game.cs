@@ -148,6 +148,8 @@ namespace MohawkGame2D
 
         /// <summary>
         ///     Update runs every frame.
+        ///     
+        /// Runs render, pacman, handles pause
         /// </summary>
         public void Update()
         {

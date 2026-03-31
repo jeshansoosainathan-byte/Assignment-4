@@ -37,7 +37,9 @@ namespace Assignment_4
         public Direction currentdir { get; set; }
         public Direction desireddir { get; set; }
         public int powertime = 0;
-        public int size = 12;
+        public int size = 13;
+        public int currentFrame = 0; // current animation frame. 0-3 are standard frames, 4-7 are death frames.
+        public float frameStep = 1/16; // time left in seconds until animation frame advances
         private Tile[] tiles;
         private Game game;
 
@@ -62,6 +64,15 @@ namespace Assignment_4
                 currentdir = desireddir;
                 
             }
+
+            //advance animation frames
+            frameStep -= Time.DeltaTime;
+            if (frameStep < 0) // if animation ready to advance
+            {
+                if (currentFrame < 4) { currentFrame++; currentFrame %= 4; } // advance frame of standard anim
+                else { currentFrame++; }; // advance death anim frames
+            }
+            frameStep %= 1/16; //reset frameStep ticker, compensating for overlap
          
             Move();
             CheckOverlap();
@@ -72,8 +83,66 @@ namespace Assignment_4
         public void Render()
         {
 
+            // draw the pac
             Draw.FillColor = Color.Yellow;
-            Draw.Rectangle(x, y, size, size);
+            switch (currentFrame)
+            {
+                // NORMAL: FIRST FRAME. FULL CIRCLE
+                case 0:
+                    switch (currentdir)
+                    {
+                        case Direction.RIGHT:
+                            break;
+                        case Direction.DOWN:
+                            break;
+                        case Direction.UP:
+                            break;
+                        case Direction.LEFT:
+                            break;
+                    }
+                    break;
+                // NORMAL: SECOND AND FOURTH FRAME. MOUTH OPEN MEDIUM
+                case 1 or 3:
+                    switch (currentdir)
+                    {
+                        case Direction.RIGHT:
+                            break;
+                        case Direction.DOWN:
+                            break;
+                        case Direction.UP:
+                            break;
+                        case Direction.LEFT:
+                            break;
+                    }
+                    break;
+                // NORMAL: THIRD FRAME. MOUTH WIDE OPEN
+                case 2:
+                    switch (currentdir)
+                    {
+                        case Direction.RIGHT:
+                            break;
+                        case Direction.DOWN:
+                            break;
+                        case Direction.UP:
+                            break;
+                        case Direction.LEFT:
+                            break;
+                    }
+                    break;
+                // DYING: FIRST FRAME. LOWER SEMICIRCLE
+                case 4:
+                    break;
+                // DYING: SECOND FRAME. LOW VERTICAL LINE
+                case 5:
+                    break;
+                // DYING: THIRD FRAME. POP
+                case 6:
+                    break;
+                // DYING: FOURTH FRAME. GONE FOREVER. OOPS.
+                case 7:
+                    // intentionally left blank.
+                    break;
+            }
 
         }
 

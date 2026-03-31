@@ -5,9 +5,15 @@ using System.Text;
 
 namespace Assignment_4
 {
+    //Class handling Tiles, the building block of Pacman
     public class Tile
     {
 
+        /*Enum classifying each Tile as one of several types. 
+         *  GhostWall is a wall only ghosts can pass through, used for the center spawn area for Ghosts
+         * 
+         * 
+         */
         public enum Type
         {
             Wall,
@@ -24,6 +30,7 @@ namespace Assignment_4
         public int x {  get; set; }
         public int y { get; set; }
         public Type type = Type.Wall;
+        //Removes tile from the board. Stops rendering it and can no longer be collided with
         public bool destroy = false;
         public Tile(int x, int y, Type type)
         {
@@ -32,6 +39,7 @@ namespace Assignment_4
             this.type = type;
         }
 
+        //Switch-case render function. 
         public void Render()
         {
 
@@ -71,6 +79,7 @@ namespace Assignment_4
 
         }
 
+        //Handles pacman colliding with tile. Used for pickup tiles, such as pellets or food
        public void collide(Pacman pacman)
         {
             if (destroy) return;

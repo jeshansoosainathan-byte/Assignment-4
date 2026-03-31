@@ -9,6 +9,7 @@ namespace Assignment_4
 {
     public class Pacman
     {
+        //Direction enum for the ways Pacman can move
         public enum Direction
         {
             NONE,
@@ -18,6 +19,7 @@ namespace Assignment_4
             RIGHT
 
         }
+
 
         public Pacman(Tile[] tiles, Game game )
         {
@@ -34,7 +36,10 @@ namespace Assignment_4
         public int lives { get; set; }
         public int score { get; set; }
         public int speed { get; set; }
+
+        //The direction Pacman is currently moving in
         public Direction currentdir { get; set; }
+        //The direction the player inputs which will be qued
         public Direction desireddir { get; set; }
         public int powertime = 0;
         public int size = 13;
@@ -44,7 +49,7 @@ namespace Assignment_4
         private Game game;
 
 
-
+        //Handles all movement-related code. HandleInput handles player input, swapping desireddirect to match input. Checks if the desired direct is valid before committing a move to it
         public void Update()
         {
             HandleInput();
@@ -156,6 +161,7 @@ namespace Assignment_4
 
         }
 
+        //Checks if Pacman overlaps with a tile. Used for collecting pickups
         public void CheckOverlap()
         {
 

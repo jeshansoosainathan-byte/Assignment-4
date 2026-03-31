@@ -82,12 +82,11 @@ namespace Assignment_4
                     break;
                 case Type.PowerPellet:
                     destroy = true;
-                    pacman.score += 1;
                     pacman.powertime = 10;
                     break;
                 case Type.Food:
                     destroy = true;
-                    pacman.score += 3;
+                    pacman.score += 100;
                     break;
               
 

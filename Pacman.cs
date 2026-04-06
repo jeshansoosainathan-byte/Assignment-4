@@ -137,6 +137,7 @@ namespace Assignment_4
                     }
                     Draw.FillColor = Color.Yellow;
                     break;
+                /*
                 // DYING: FIRST FRAME. LOWER SEMICIRCLE
                 case 4:
                     break;
@@ -150,6 +151,7 @@ namespace Assignment_4
                 case 7:
                     // intentionally left blank.
                     break;
+                */
             }
             Draw.LineSize = 1;
 

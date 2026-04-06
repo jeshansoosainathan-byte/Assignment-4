@@ -42,9 +42,12 @@ namespace Assignment_4
         //The direction the player inputs which will be qued
         public Direction desireddir { get; set; }
         public int powertime = 0;
-        public int size = 13;
+        public int size = 12;
         public int currentFrame = 0; // current animation frame. 0-3 are standard frames, 4-7 are death frames.
-        public float frameStep = 1/16; // time left in seconds until animation frame advances
+        const float FRAME_STEP = 0.125f; // default frameStep value to reset to
+        public float frameStep = FRAME_STEP; // time left in seconds until animation frame advances
+
+        // tiles
         private Tile[] tiles;
         private Game game;
 
@@ -77,7 +80,8 @@ namespace Assignment_4
                 if (currentFrame < 4) { currentFrame++; currentFrame %= 4; } // advance frame of standard anim
                 else { currentFrame++; }; // advance death anim frames
             }
-            frameStep %= 1/16; //reset frameStep ticker, compensating for overlap
+            if (frameStep < 0) { frameStep += FRAME_STEP; }
+            frameStep %= FRAME_STEP; //reset frameStep ticker, compensating for overlap
          
             Move();
             CheckOverlap();
@@ -90,49 +94,48 @@ namespace Assignment_4
 
             // draw the pac
             Draw.FillColor = Color.Yellow;
+            Draw.LineSize = 0;
+            //Console.WriteLine($"pac frame {currentFrame} is facing {currentdir}");
             switch (currentFrame)
             {
-                // NORMAL: FIRST FRAME. FULL CIRCLE
-                case 0:
-                    switch (currentdir)
-                    {
-                        case Direction.RIGHT:
-                            break;
-                        case Direction.DOWN:
-                            break;
-                        case Direction.UP:
-                            break;
-                        case Direction.LEFT:
-                            break;
-                    }
+                // NORMAL: FIRST AND THIRD FRAME. FULL CIRCLE
+                case 0 or 2:
+                    Draw.Rectangle(x + 4, y, 5, 13);
+                    Draw.Rectangle(x + 2, y + 1, 9, 11);
+                    Draw.Rectangle(x + 1, y + 2, 11, 9);
+                    Draw.Rectangle(x, y + 4, 13, 5);
                     break;
                 // NORMAL: SECOND AND FOURTH FRAME. MOUTH OPEN MEDIUM
                 case 1 or 3:
+                    Draw.Rectangle(x + 4, y, 5, 13);
+                    Draw.Rectangle(x + 2, y + 1, 9, 11);
+                    Draw.Rectangle(x + 1, y + 2, 11, 9);
+                    Draw.Rectangle(x, y + 4, 13, 5);
+                    Draw.FillColor = Color.Black; // cut into circle with black overlay to draw mouth
                     switch (currentdir)
                     {
-                        case Direction.RIGHT:
+                        case Direction.RIGHT or Direction.NONE:
+                            Draw.Rectangle(x + 10, y + 4, 3, 5);
+                            Draw.Rectangle(x + 7, y + 5, 3, 3);
+                            Draw.Rectangle(x + 4, y + 6, 3, 1);
                             break;
                         case Direction.DOWN:
+                            Draw.Rectangle(x + 4, y + 10, 5, 3);
+                            Draw.Rectangle(x + 5, y + 7, 3, 3);
+                            Draw.Rectangle(x + 6, y + 5, 1, 2);
                             break;
                         case Direction.UP:
+                            Draw.Rectangle(x + 4, y, 5, 3);
+                            Draw.Rectangle(x + 5, y + 3, 3, 3);
+                            Draw.Rectangle(x + 6, y + 6, 1, 2);
                             break;
                         case Direction.LEFT:
+                            Draw.Rectangle(x, y + 4, 3, 5);
+                            Draw.Rectangle(x + 3, y + 5, 3, 3);
+                            Draw.Rectangle(x + 6, y + 6, 3, 1);
                             break;
                     }
-                    break;
-                // NORMAL: THIRD FRAME. MOUTH WIDE OPEN
-                case 2:
-                    switch (currentdir)
-                    {
-                        case Direction.RIGHT:
-                            break;
-                        case Direction.DOWN:
-                            break;
-                        case Direction.UP:
-                            break;
-                        case Direction.LEFT:
-                            break;
-                    }
+                    Draw.FillColor = Color.Yellow;
                     break;
                 // DYING: FIRST FRAME. LOWER SEMICIRCLE
                 case 4:
@@ -148,6 +151,7 @@ namespace Assignment_4
                     // intentionally left blank.
                     break;
             }
+            Draw.LineSize = 1;
 
         }
 

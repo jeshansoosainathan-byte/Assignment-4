@@ -1,3 +1,3 @@
-Control Pacman with WASD or Arrow Keys
-Eat pellets, avoid ghosts
-Press Q to pause game
+- Control Pacman with WASD or Arrow Keys
+- Eat pellets, avoid ghosts
+- Press Q to pause game

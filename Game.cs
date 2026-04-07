@@ -14,6 +14,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
 
+        Texture2D mazeTexture = Graphics.LoadTexture("../../../assets/maze-bg.png");
 
         int screenwidth = 448;
         int screenheight = 512;
@@ -154,6 +155,8 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.Black);
+
+            Graphics.Draw(mazeTexture, 71, 82);
 
             Render();
 

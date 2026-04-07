@@ -1,0 +1,4 @@
+project files for use with "Paint.NET" (counterintuitively at getpaint.net)
+
+- pac-man.pdn was a sprite rip from spriters-resource.com used as reference and little else
+- maze-drawing.pdn is the project file used to create the maze background, using a screenshot from an earlier version as reference

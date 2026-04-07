@@ -24,7 +24,6 @@ namespace Assignment_4
             Portal
         }
 
-
         static int tilewidth = 16;
         static int tileheight = 16;
         public int x {  get; set; }
@@ -48,10 +47,10 @@ namespace Assignment_4
             switch (type)
             {
                 case Type.Wall:
-                    Draw.FillColor = Color.Blue;
-                    Draw.Rectangle(x, y, tilewidth, tileheight);
+                    //Draw.FillColor = Color.Blue;
+                    //Draw.Rectangle(x, y, tilewidth, tileheight);
                     break;
-                    case Type.Pellet:
+                case Type.Pellet:
                     Draw.FillColor = Color.White;
                     Draw.Circle(x + 8, y + 8, 4);
                     break;
@@ -60,8 +59,8 @@ namespace Assignment_4
                     Draw.Circle(x + 10, y + 10, 6);
                     break;
                 case Type.GhostWall:
-                     Draw.FillColor = Color.Magenta;
-                    Draw.Rectangle(x, y, tilewidth, tileheight);
+                    //Draw.FillColor = Color.Magenta;
+                    //Draw.Rectangle(x, y, tilewidth, tileheight);
                     break;
                 case Type.Portal:
                     Draw.FillColor = Color.LightGray;
